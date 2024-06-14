@@ -5,9 +5,9 @@ const fs = require('fs');
 
 const storage = new Storage({
     keyFilename: path.join(__dirname, '../dummy-be-snapcal-bucket.json'), 
-    projectId: 'dummy-be-snapcal'
+    projectId: 'snapcal-backend'
 });
-const bucketName = 'snapcal-storage-dummy'; 
+const bucketName = 'snapcal-bucket-storage'; 
 
 const uploadPhoto = async (req, res) => {
     const { email } = req.user; 
@@ -97,11 +97,13 @@ const updateProfileDetails = async (req, res) => {
         const userDoc = await userRef.get();
         const userData = userDoc.data();
 
+        const { password, updatedAt, createdAt, token, ...userWithoutSensitiveInfo } = userData;
+
         return res.status(201).json({
             status: "successful",
             message: "User update profile success",
             userId: userData.userId,
-            data: userData
+            data: userWithoutSensitiveInfo
         });
     } catch (error) {
         console.error(error);
