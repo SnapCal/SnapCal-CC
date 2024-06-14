@@ -1,12 +1,16 @@
+const { validationResult } = require('express-validator');
 const db = require('../db/firestore');
 const User = require('../models/user');
-
 const { hashPassword, comparePassword } = require('../utils/hashPassword');
 const { generateToken } = require('../utils/jwtUtils');
-
 const { v4: uuidv4 } = require('uuid');  
 
 const register = async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+    }
+
     const { name, email, password } = req.body;
 
     try {
@@ -16,7 +20,7 @@ const register = async (req, res) => {
         if (userDoc.exists) {
             return res.status(400).json({
                 status: "fail",
-                message: "Failed registered account/Account already created"
+                message: "Account already exists"
             });
         }
 
@@ -42,6 +46,11 @@ const register = async (req, res) => {
 };
 
 const login = async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+    }
+
     const { email, password } = req.body;
 
     try {
@@ -51,7 +60,7 @@ const login = async (req, res) => {
         if (!userDoc.exists || !(await comparePassword(password, userDoc.data().password))) {
             return res.status(400).json({
                 status: "fail",
-                message: "Account not found"
+                message: "Invalid email or password"
             });
         }
 
@@ -62,9 +71,9 @@ const login = async (req, res) => {
             "updatedAt": new Date()
         });
 
-        return res.status(201).json({
+        return res.status(200).json({
             status: "successful",
-            message: "User login successfully",
+            message: "User logged in successfully",
             token
         });
     } catch (error) {
@@ -120,6 +129,11 @@ const deleteAccount = async (req, res) => {
 };
 
 const resetPassword = async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+    }
+
     const { email } = req.user; 
     const { password } = req.body; 
 
