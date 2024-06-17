@@ -36,6 +36,7 @@
 - [**jsonwebtoken**](https://www.npmjs.com/package/jsonwebtoken) - Version: ^9.0.2
 - [**multer**](https://www.npmjs.com/package/multer) - Version: ^1.4.5-lts.1
 - [**nodemon**](https://www.npmjs.com/package/nodemon) - Version: ^3.1.0
+- [**express-validator**](https://www.npmjs.com/package/express-validator) - Version: ^7.1.0
 
 ## Endpoint Routes
 | Route                                | HTTP Method | Description                 | Auth         |
@@ -195,19 +196,19 @@ Status Code: 500
 - **Auth:** REQUIRED
 - **URL:** `/auth/reset-password`
 - **Request Body:**
-      ```json
+  ```json
     {
         "password": "examplenewpassword"
     }
-    ```
+  ```
 - **Response:**
 Status Code: 201
-    ```json
+  ```json
     {
         "status": "successful",
         "message": "Password reset successfully",
     }
-    ```
+  ```
 Status Code: 400
     ```json
     {
