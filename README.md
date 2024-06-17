@@ -49,3 +49,274 @@
 | /user/profile-details                | GET         | Get Profile Details         | Required     |
 | /user/profile-details                | PUT         | Update Profile Details      | Required     |
 | /user/profile-details/upload-photo   | POST        | Upload photo profile user   | Required     |
+
+# API Documentation
+
+## Base URL
+[https://snapcal-backend.et.r.appspot.com/)
+
+## Endpoints
+
+### Register Account
+- **Method:** POST
+- **Auth:** NOT REQUIRED
+- **URL:** `/auth/register`
+- **Request Body:**
+    ```json
+    {
+	"name": "user name example",
+    	"email": "user@example.com",
+    	"password": "examplepassword"
+    }
+    ```
+- **Response:**
+Status Code: 201
+    ```json
+    {
+        "status": "successful",
+        "message": "User registered successfully",
+    }
+    ```
+Status Code: 400
+    ```json
+    {
+        "status": "fail",
+        "message": "Failed registered account/Account already created",
+    }
+    ```
+
+Status Code: 500
+    ```json
+    {
+        "status": "error",
+        "message": "Internal Server Error",
+    }
+    ```
+
+
+### Login Account
+- **Method:** POST
+- **Auth:** NOT REQUIRED
+- **URL:** `/auth/login`
+- **Request Body:**
+    ```json
+    {
+    	"email": "user@example.com",
+    	"password": "examplepassword"
+    }
+    ```
+- **Response:**
+Status Code: 201
+    ```json
+    {
+        "status": "successful",
+        "message": "User logged in successfully",
+        "token": "example-token"
+    }
+    ```
+Status Code: 400
+    ```json
+    {
+        "status": "fail",
+        "message": "User failed to login",
+    }
+    ```
+
+Status Code: 500
+    ```json
+    {
+        "status": "error",
+        "message": "Internal Server Error",
+    }
+    ```
+
+### Logout Account
+- **Method:** POST
+- **Auth:** REQUIRED
+- **URL:** `/auth/logout`
+- **Request Body:**
+  `Authentication: jwt-token`
+- **Response:**
+Status Code: 201
+    ```json
+    {
+        "status": "successful",
+        "message": "User logout successfully",
+    }
+    ```
+Status Code: 400
+    ```json
+    {
+        "status": "fail",
+        "message": "Failed to logout",
+    }
+    ```
+
+Status Code: 500
+    ```json
+    {
+        "status": "error",
+        "message": "Internal Server Error",
+    }
+    ```
+
+### Delete Account
+- **Method:** DELETE
+- **Auth:** REQUIRED
+- **URL:** `/auth/delete-account`
+- **Request Body:**
+  `Authentication: jwt-token`
+- **Response:**
+Status Code: 201
+    ```json
+    {
+        "status": "successful",
+        "message": "Delete account successfully",
+    }
+    ```
+Status Code: 400
+    ```json
+    {
+       "status": "fail",
+       "message": "Failed to delete account",
+    }
+    ```
+
+Status Code: 500
+    ```json
+    {
+        "status": "error",
+        "message": "Internal Server Error",
+    }
+    ```
+
+### Reset Account Password
+- **Method:** PUT
+- **Auth:** REQUIRED
+- **URL:** `/auth/reset-password`
+- **Request Body:**
+      ```json
+    {
+        "password": "examplenewpassword"
+    }
+    ```
+- **Response:**
+Status Code: 201
+    ```json
+    {
+        "status": "successful",
+        "message": "Password reset successfully",
+    }
+    ```
+Status Code: 400
+    ```json
+    {
+        "status": "fail",
+        "message": "User failed to reset password",
+    }
+    ```
+
+Status Code: 500
+    ```json
+    {
+        "status": "error",
+        "message": "Internal Server Error",
+    }
+    ```
+
+### GET User Profile Details
+- **Method:** GET
+- **Auth:** REQUIRED
+- **URL:** `/user/profile-details`
+- **Request Body:**
+`Authentication: jwt-token`
+- **Response:**
+Status Code: 201
+    ```json
+    {
+        "status": "successful"
+        "message": "User get profile success"
+        "userId": "exampleuserId"
+        "data":{
+            "name": "example name"
+            "email": "name@example.com"
+            "gender": "pria"
+            "beratBadan": 80
+            "tinggiBadan": 178
+            "usiaUser": 25
+            "gambar_profile": "url to profile image"
+            "created_at": "xxxxxxx"
+            "updated_at": "xxxxxxx"
+        }
+    }
+    ```
+Status Code: 400
+    ```json
+    {
+        "status": "fail",
+        "message": "Failed to Get Profile",
+    }
+    ```
+
+Status Code: 500
+    ```json
+    {
+        "status": "error",
+        "message": "Internal Server Error",
+    }
+    ```
+
+### UPDATE User Profile Details
+- **Method:** PUT
+- **Auth:** REQUIRED
+- **URL:** `/user/profile-details`
+- **Request Body:**
+    ```json
+    {
+        "userId": "exampleuserId"
+        "data":{
+            "name": "new example name"
+            "email": "newname@example.com"
+            "gender": "wanita"
+            "beratBadan": 70
+            "tinggiBadan": 177
+            "usiaUser": 24
+            "gambar_profile": "url to new profile image"
+        }
+    }
+    ```
+- **Response:**
+Status Code: 201
+    ```json
+    {
+        "status": "successful"
+        "message": "User update profile success"
+        "userId": "exampleuserId"
+        "data":{
+           "name": "new example name"
+           "email": "newname@example.com"
+           "gender": "wanita"
+           "beratBadan": 70
+           "tinggiBadan": 177
+           "usiaUser": 24
+           "gambar_profile": "url to new profile image"
+           "created_at": "xxxxxxx"
+           "updated_at": "xxxxxxx"
+        }
+    }
+    ```
+Status Code: 400
+    ```json
+    {
+        "status": "fail",
+        "message": "Failed to Update Profile",
+    }
+    ```
+
+Status Code: 500
+    ```json
+    {
+        "status": "error",
+        "message": "Internal Server Error",
+    }
+    ```
